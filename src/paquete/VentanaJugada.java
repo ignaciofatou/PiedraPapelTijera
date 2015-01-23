@@ -13,13 +13,22 @@ import java.util.Random;
  */
 public class VentanaJugada extends javax.swing.JFrame {
 
+    //Declaramos la Clase Opciones
+    Opciones opciones = new Opciones();
+
+    //Clase Mano
     Mano jugada;
+    
+    //Estado del Juego
     boolean iniciar = false;
     
     public VentanaJugada() {
         initComponents();
         
+        //Centramos la ventana
         setLocationRelativeTo(null);
+        
+        
     }
 
     /**
@@ -54,6 +63,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         jPJugador.setBorder(javax.swing.BorderFactory.createTitledBorder("Jugador"));
 
         jBPiedraJugador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Piedra.png"))); // NOI18N
+        jBPiedraJugador.setToolTipText("Piedra");
         jBPiedraJugador.setEnabled(false);
         jBPiedraJugador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +72,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         });
 
         jBPapelJugador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Papel.png"))); // NOI18N
+        jBPapelJugador.setToolTipText("Papel");
         jBPapelJugador.setEnabled(false);
         jBPapelJugador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,6 +81,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         });
 
         jBTijeraJugador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tijera.png"))); // NOI18N
+        jBTijeraJugador.setToolTipText("Tijera");
         jBTijeraJugador.setEnabled(false);
 
         javax.swing.GroupLayout jPJugadorLayout = new javax.swing.GroupLayout(jPJugador);
@@ -160,6 +172,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         });
 
         jBIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Nueva_Partida.png"))); // NOI18N
+        jBIniciar.setToolTipText("Iniciar Partida");
         jBIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBIniciarActionPerformed(evt);
@@ -167,6 +180,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         });
 
         jBOpciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Option.png"))); // NOI18N
+        jBOpciones.setToolTipText("Configuración del Juego");
         jBOpciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBOpcionesActionPerformed(evt);
@@ -252,6 +266,7 @@ public class VentanaJugada extends javax.swing.JFrame {
     private void reinicarPartida(){
         jTFWinPlayer.setText("0");
         jTFJugada.setText("0");
+        jBIniciar.setToolTipText("Iniciar Partida");
         jBPiedraJugador.setEnabled(false);
         jBPapelJugador.setEnabled(false);
         jBTijeraJugador.setEnabled(false);
@@ -259,6 +274,7 @@ public class VentanaJugada extends javax.swing.JFrame {
         jBIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("../imagenes/Nueva_Partida.png")));
     }    
     private void iniciarPartida(){
+        jBIniciar.setToolTipText("Reiniciar Partida");
         jBPiedraJugador.setEnabled(true);
         jBPapelJugador.setEnabled(true);
         jBTijeraJugador.setEnabled(true);
@@ -277,9 +293,28 @@ public class VentanaJugada extends javax.swing.JFrame {
     
     
     private void jBOpcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOpcionesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBOpcionesActionPerformed
 
+        //Declaramos objeto del tipo VentanaOpciones
+        VentanaOpciones ventanaOpciones = new VentanaOpciones(this, true, opciones);
+
+        //Mostrar la ventana de diálogo
+        ventanaOpciones.setVisible(true);
+        
+        //Si se ha pulsado Aceptar
+        if (ventanaOpciones.isBtnAceptar()){
+            opciones = ventanaOpciones.getOpciones();
+            setOpcionesVentana();
+        }
+    }//GEN-LAST:event_jBOpcionesActionPerformed
+    
+    private void setOpcionesVentana(){
+        jTFWinPlayer.setBackground(opciones.getColorJugador());
+        jPJugador.setBackground(opciones.getColorJugador());
+        jTFWinPC.setBackground(opciones.getColorPC());
+        jPOrdenador.setBackground(opciones.getColorPC());
+        jPJugador.setBorder(javax.swing.BorderFactory.createTitledBorder(opciones.getNombre()));
+    }
+    
     private void jTFJugadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFJugadaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFJugadaActionPerformed

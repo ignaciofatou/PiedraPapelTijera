@@ -98,6 +98,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/Piedra.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Piedra"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -109,6 +110,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/Papel.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Papel"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -120,6 +122,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/Tijera.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Tijera"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
@@ -297,6 +300,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/Nueva_Partida.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Iniciar Partida"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBIniciarActionPerformed"/>
@@ -307,6 +311,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/imagenes/Option.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Configuraci&#xf3;n del Juego"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBOpcionesActionPerformed"/>

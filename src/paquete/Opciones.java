@@ -13,19 +13,19 @@ import java.awt.Color;
  */
 public class Opciones {
     //Constantes
-    private final int NUM_PARTIDAS_DEF = 10;
-    private final Color COLOR_DEF = Color.white;
-    private final String NOM_JUGADOR = "Jugador";
+    private final int NUM_PARTIDAS_DEF      = 10;
+    private final Color COLOR_JUGADOR_DEF   = Color.decode("0X3F87E9");
+    private final Color COLOR_ORDENADOR_DEF = Color.decode("0XFF4444");
+    private final String NOM_JUGADOR        = "Jugador";
+    public  final String NOM_OPONENTE       = "Ordenador";
+    
 
     //Atributos
     private String nombre       = NOM_JUGADOR;
     private int    numPartidas  = NUM_PARTIDAS_DEF;
-    private Color  colorJugador = COLOR_DEF;
-    private Color  colorPC      = COLOR_DEF;
+    private Color  colorJugador = COLOR_JUGADOR_DEF;
+    private Color  colorPC      = COLOR_ORDENADOR_DEF;
     
-    //Opciones(){        
-    //}
-
     /**
      * @return the nombre
      */

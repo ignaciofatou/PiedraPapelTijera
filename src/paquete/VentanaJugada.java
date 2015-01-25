@@ -17,7 +17,7 @@ public class VentanaJugada extends javax.swing.JFrame {
     Opciones opciones = new Opciones();
 
     //Clase Mano
-    Mano jugada;
+    Jugada partidaJugadores;
     
     //Estado del Juego
     boolean iniciar = false;
@@ -28,7 +28,11 @@ public class VentanaJugada extends javax.swing.JFrame {
         //Centramos la ventana
         setLocationRelativeTo(null);
         
+        //Establecemos las Opciones por Defecto de la Ventana
+        setOpcionesVentana();
         
+        //Reiniciamos la Partida
+        reinicarPartida();
     }
 
     /**
@@ -44,14 +48,14 @@ public class VentanaJugada extends javax.swing.JFrame {
         jBPiedraJugador = new javax.swing.JButton();
         jBPapelJugador = new javax.swing.JButton();
         jBTijeraJugador = new javax.swing.JButton();
+        jTFWinPlayer = new javax.swing.JTextField();
         jPOrdenador = new javax.swing.JPanel();
         jBPiedraOrdenador = new javax.swing.JButton();
         jBPapelOrdenador = new javax.swing.JButton();
         jBTijeraOrdenador = new javax.swing.JButton();
+        jTFWinPC = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTFWinPlayer = new javax.swing.JTextField();
-        jTFWinPC = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jTFJugada = new javax.swing.JTextField();
         jBIniciar = new javax.swing.JButton();
@@ -83,6 +87,16 @@ public class VentanaJugada extends javax.swing.JFrame {
         jBTijeraJugador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tijera.png"))); // NOI18N
         jBTijeraJugador.setToolTipText("Tijera");
         jBTijeraJugador.setEnabled(false);
+        jBTijeraJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTijeraJugadorActionPerformed(evt);
+            }
+        });
+
+        jTFWinPlayer.setEditable(false);
+        jTFWinPlayer.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTFWinPlayer.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTFWinPlayer.setText("0");
 
         javax.swing.GroupLayout jPJugadorLayout = new javax.swing.GroupLayout(jPJugador);
         jPJugador.setLayout(jPJugadorLayout);
@@ -96,16 +110,21 @@ public class VentanaJugada extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBTijeraJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPJugadorLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTFWinPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPJugadorLayout.setVerticalGroup(
             jPJugadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPJugadorLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPJugadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBTijeraJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBPapelJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBPiedraJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFWinPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPOrdenador.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenador"));
@@ -119,44 +138,43 @@ public class VentanaJugada extends javax.swing.JFrame {
         jBTijeraOrdenador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Tijera.png"))); // NOI18N
         jBTijeraOrdenador.setEnabled(false);
 
+        jTFWinPC.setEditable(false);
+        jTFWinPC.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTFWinPC.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTFWinPC.setText("0");
+
         javax.swing.GroupLayout jPOrdenadorLayout = new javax.swing.GroupLayout(jPOrdenador);
         jPOrdenador.setLayout(jPOrdenadorLayout);
         jPOrdenadorLayout.setHorizontalGroup(
             jPOrdenadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPOrdenadorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBPiedraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBPapelOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBTijeraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPOrdenadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPOrdenadorLayout.createSequentialGroup()
+                        .addComponent(jBPiedraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBPapelOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBTijeraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFWinPC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPOrdenadorLayout.setVerticalGroup(
             jPOrdenadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPOrdenadorLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPOrdenadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBTijeraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBPapelOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBPiedraOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFWinPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Marcador:");
-
-        jTFWinPlayer.setEditable(false);
-        jTFWinPlayer.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jTFWinPlayer.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTFWinPlayer.setText("0");
-
-        jTFWinPC.setEditable(false);
-        jTFWinPC.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jTFWinPC.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTFWinPC.setText("0");
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Restantes:");
@@ -198,10 +216,6 @@ public class VentanaJugada extends javax.swing.JFrame {
                 .addComponent(jBOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTFWinPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jTFWinPC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -214,8 +228,6 @@ public class VentanaJugada extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFWinPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTFWinPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
                         .addComponent(jTFJugada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1))
@@ -246,9 +258,9 @@ public class VentanaJugada extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPJugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPOrdenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPOrdenador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -280,12 +292,42 @@ public class VentanaJugada extends javax.swing.JFrame {
         jBTijeraJugador.setEnabled(true);
         iniciar = true;        
         jBIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("../imagenes/Restart.png")));
+        
+        //Creamos 1 objeto de tipo Jugada
+        partidaJugadores   = new Jugada(opciones.getNombre(), opciones.NOM_OPONENTE);
     }
     
-    private int getJugadaOrdenador(){
+    //*******
+    private void setJugadaOrdenador(){
         Random generadorNum = new Random();
-        return generadorNum.nextInt(3) + 1;
+        int jugadaOrdenador = generadorNum.nextInt(3) + 1;
+
+        //Establecemo la Nueva Mano del Ordenador
+        partidaJugadores.setJugadaB(jugadaOrdenador);
+        
+        //Marcamos el Boton del Ordenador
+        setBotonOrdenador(jugadaOrdenador);
     }
+    /****/
+    private void setBotonOrdenador(int jugadaOrdenador){
+        //Desactivamos todos por defecto
+        jBPiedraOrdenador.setEnabled(false);
+        jBPapelOrdenador.setEnabled(false);
+        jBTijeraOrdenador.setEnabled(false);
+        
+        switch(jugadaOrdenador){
+            case Jugada.PIEDRA:
+                jBPiedraOrdenador.setEnabled(true);
+                break;
+            case Jugada.PAPEL:
+                jBPapelOrdenador.setEnabled(true);
+                break;
+            case Jugada.TIJERA:
+                jBTijeraOrdenador.setEnabled(true);
+                break;
+        }
+    }
+        
     
     private void setNombreJugador(String nombreJugador){
         jPJugador.setBorder(javax.swing.BorderFactory.createTitledBorder(nombreJugador));
@@ -302,8 +344,15 @@ public class VentanaJugada extends javax.swing.JFrame {
         
         //Si se ha pulsado Aceptar
         if (ventanaOpciones.isBtnAceptar()){
+            
+            //Copiamos las Nuevas Opciones
             opciones = ventanaOpciones.getOpciones();
+            
+            //Establecemos las Opciones por Defecto de la Ventana
             setOpcionesVentana();
+            
+            //Reiniciamos la Partida
+            reinicarPartida();
         }
     }//GEN-LAST:event_jBOpcionesActionPerformed
     
@@ -320,14 +369,49 @@ public class VentanaJugada extends javax.swing.JFrame {
     }//GEN-LAST:event_jTFJugadaActionPerformed
 
     private void jBPapelJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPapelJugadorActionPerformed
-        // TODO add your handling code here:
+        setJugada(Jugada.PAPEL);
+        //partidaJugadores.setJugadaA(Jugada.PAPEL);
     }//GEN-LAST:event_jBPapelJugadorActionPerformed
 
     private void jBPiedraJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPiedraJugadorActionPerformed
-        // TODO add your handling code here:
+        setJugada(Jugada.PIEDRA);
+        //partidaJugadores.setJugadaA(Jugada.PIEDRA);
     }//GEN-LAST:event_jBPiedraJugadorActionPerformed
 
+    private void jBTijeraJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBTijeraJugadorActionPerformed
+        setJugada(Jugada.TIJERA);
+        //partidaJugadores.setJugadaA(Jugada.TIJERA);
+    }//GEN-LAST:event_jBTijeraJugadorActionPerformed
 
+    //*******
+    private void setJugada(int manoJugador){
+        
+        //Establecemos la Jugada del Jugador A
+        partidaJugadores.setJugadaA(manoJugador);
+
+        //Establecemos la Jugada del Jugador B ******
+        setJugadaOrdenador();
+        
+        //Comprueba quien ha ganado
+        int ganador = partidaJugadores.getGanador();
+        
+        //Refrescamos el Marcador
+        jTFWinPlayer.setText(String.valueOf(partidaJugadores.getGanadasA()));
+        jTFWinPC.setText(String.valueOf(partidaJugadores.getGanadasB()));
+        
+        //Indicamos quien ha ganado esta mano
+        switch(ganador){
+            case Jugada.GANA_A:
+                System.out.println("Ha ganado A");
+                break;
+            case Jugada.EMPATE:
+                System.out.println("Empate");
+                break;
+            case Jugada.GANA_B:
+                System.out.println("Ha ganado B");
+                break;
+        }
+    }
     
     /**
      * @param args the command line arguments

@@ -21,24 +21,24 @@ public class Jugada {
     public static final int GANA_B = 3;
 
     //Variables Dinamicas
-    private int    numJugada      = 0;
+    private int    restantes      = 0;
     private String nombreJugadorA = "";
-    private int    jugadaA        = 0;
-    private int    ganadasA        = 0;
     private String nombreJugadorB = "";
+    private int    jugadaA        = 0;
     private int    jugadaB        = 0;
-    private int    ganadasB        = 0;
+    private int    ganadasA       = 0;
+    private int    ganadasB       = 0;
     
     //Variables Estaticas
     //private static int numJugadores  = 0;
     
     //Constructor
-    Jugada(String nombreJugadorA, String nombreJugadorB){
+    Jugada(String nombreJugadorA, String nombreJugadorB, int numPartidas){
         this.nombreJugadorA = nombreJugadorA;
         this.nombreJugadorB = nombreJugadorB;
-        this.numJugada = 0;
-        this.ganadasA   = 0;
-        this.ganadasB   = 0;
+        this.restantes = numPartidas;
+        this.ganadasA  = 0;
+        this.ganadasB  = 0;
     }
     
     public String getNombreJugadorA() {
@@ -49,11 +49,41 @@ public class Jugada {
     }
 
     public int getNumJugada() {
-        return numJugada;
+        return this.restantes;
     }
-    public void setNuevaJugada() {
-        this.numJugada++;
+    public void restaPartida(javax.swing.JTextField JTNumPartida) {
+        if (this.restantes > 0){
+            this.restantes--;
+            JTNumPartida.setText(String.valueOf(this.restantes));
+        }
     }
+    
+    public boolean isFinalPartida(){
+        //Si el Numero de Partidas Restantes es Mayor que 0
+        if (restantes > 0){
+            int diferencia = Math.abs(ganadasA - ganadasB);
+
+            //Si la diferencia es Mayor que el Numero de Partidas Restantes
+            // --> Final de Partida
+            if (diferencia > restantes)
+                return true;
+            else
+                return false;
+        }
+        //Si el Numero de Partidas es 0 -> Final de Partida
+        else
+            return true;
+    }
+    //Mira quien va ganando la partida
+    public int getGanandoPartida(){
+        if (ganadasA > ganadasB)
+            return GANA_A;
+        else if (ganadasB > ganadasA)
+            return GANA_B;
+        else
+            return EMPATE;
+    }
+
 
     public void setJugadaA(int jugada){
         
@@ -91,7 +121,7 @@ public class Jugada {
         }
     }
     
-    public int getGanador(){
+    public int getGanadorJugada(){
         int ganador = 0;
         
         //Establecemos la Jugada

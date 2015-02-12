@@ -5,8 +5,6 @@
  */
 package paquete;
 
-import java.util.Random;
-
 /**
  *
  * @author Ignacio
